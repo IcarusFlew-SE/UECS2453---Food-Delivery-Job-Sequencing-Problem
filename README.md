@@ -19,4 +19,5 @@ This repository contains a job sequencing problem where the topic is decided on 
 - [@IcarusFlew-SE]
 - [@lilyvx]|[Natalie]
 - [@BryanMartyn]
-- [@KZ]
+- [@kzz300]|[KZ]
+
