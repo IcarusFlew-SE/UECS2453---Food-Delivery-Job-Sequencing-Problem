@@ -17,3 +17,7 @@ This repository contains a job sequencing problem where the topic is decided on 
 
 ## Contributors
 - [@IcarusFlew-SE]
+- [@lilyvx]|[Natalie]
+- [@BryanMartyn]
+- [@kzz300]|[KZ]
+
