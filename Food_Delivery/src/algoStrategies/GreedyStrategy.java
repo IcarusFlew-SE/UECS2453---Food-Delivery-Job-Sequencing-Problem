@@ -46,7 +46,7 @@ public class GreedyStrategy extends AbstractScheduler {
             if (slot > 0) {
                 slots[slot] = job;
                 selected.add(job);
-                System.out.printf("  [SELECTED] %-6s | Profit: RM%-8.2f | Slot: %dn",
+                System.out.printf("  [SELECTED] %-6s | Profit: RM%-8.2f | Slot: %d\n",
                     job.getId(), job.getProfit(), slot);
             } else {
                 rejected.add(job);
