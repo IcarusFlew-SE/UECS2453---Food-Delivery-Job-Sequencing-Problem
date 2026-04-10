@@ -18,30 +18,27 @@ public class FileHandler {
                 }
                 
                 String[] parts = line.split(",");
-                if (parts.length >= 3) {
-                    int id = Integer.parseInt(parts[0].trim());
-                    double profit = Double.parseDouble(parts[1].trim());
-                    int deadline = Integer.parseInt(parts[2].trim());
-                    
-                    jobs.add(new Jobs(id, profit, deadline));
-                }
+                if (parts.length != 3) throw new IOException("Invalid format at line: " + line);
+                    String id = parts[0].trim();
+                    int deadline = Integer.parseInt(parts[1].trim());
+                    double profit = Double.parseDouble(parts[2].trim());
+                    jobs.add(new Jobs(id, deadline, profit));
             }
         }
         return jobs;
     }
     
-    public static List<Jobs> generateRandomData(int count, int maxDeadline, double maxProfit) {
+    public static List<Jobs> generateRandomData(int count, int maxDeadline, double maxProfit, long seed) {
         List<Jobs> jobs = new ArrayList<>();
-        Random rand = new Random();
+        Random rand = new Random(seed);
         
         for (int i = 1; i <= count; i++) {
-            double profit = 20 + rand.nextDouble() * (maxProfit - 20);
-            int deadline = 1 + rand.nextInt(maxDeadline);
-            
+            int deadline = rand.nextInt(maxDeadline) + 1;
+            double profit = rand.nextDouble(maxProfit) + 1;
             // Round profit to 2 decimal places
             profit = Math.round(profit * 100.0) / 100.0;
             
-            jobs.add(new Jobs(i, profit, deadline));
+            jobs.add(new Jobs("Job" + i, deadline, profit));
         }
         return jobs;
     }
