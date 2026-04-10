@@ -185,7 +185,7 @@ public class GeneticAlgo extends AbstractScheduler {
 			Collections.shuffle(this.chromosome);
 		}
 		
-		Individual(List<jobs> genes, boolean isCopy) {
+		Individual(List<Jobs> genes, boolean isCopy) {
 			this.chromosome = new ArrayList<>(genes);
 		}
 		

@@ -84,6 +84,9 @@ public class MainApp {
 			case "2":
 				printResult(new GeneticAlgo(jobs), jobs);
 				break;
+			case "0":
+				running = false;
+				break;
 			default:
 				System.out.println(" Invalid Option. Please Try Again.");
 			}
@@ -103,7 +106,7 @@ public class MainApp {
 			List<Jobs> rejected = result.getRejectedJobs();
 			
 			System.out.println("\n Selected Jobs: ");
-			System.out.printf(" %-10s %-12s %-12s%n", "Job ID", "Deadline", "Profit (RM)");
+			System.out.printf(" %-10s %-12s %-12s%n", "Job ID", "Delivery_Time", "Profit (RM)");
 			System.out.println(" " + "-".repeat(35));
 			for (Jobs job : selected) {
 				System.out.printf(" %-10s %-12d RM %.2f%n", job.getId(), job.getDeadline(), job.getProfit());
@@ -115,7 +118,7 @@ public class MainApp {
 			
 			if (!rejected.isEmpty()) {
 				System.out.println("\n Unselected Jobs: ");
-				System.out.printf(" %-10s %-12s %-12s%n", "Job ID", "Deadline", "Profit (RM)");
+				System.out.printf(" %-10s %-12s %-12s%n", "Job ID", "Delivery_Time", "Profit (RM)");
 				System.out.println(" " + "-".repeat(35));
 				for (Jobs job : rejected) {
 					System.out.printf(" %-10s %-12d RM %.2f%n", job.getId(), job.getDeadline(), job.getProfit());
