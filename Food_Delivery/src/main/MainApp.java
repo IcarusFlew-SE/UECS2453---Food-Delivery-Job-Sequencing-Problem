@@ -71,6 +71,7 @@ public class MainApp {
 			System.out.println("===========================");
 			System.out.println(" 1. Greedy Algorithm (Profit-Based)");
 			System.out.println(" 2. Genetic Algoritm");
+			System.out.println(" 4. Dynamic Programming"");
 			System.out.println(" 5. Run ALL ALGO");
 			System.out.println(" 0. Exit Program");
 			System.out.println(" Choose An Option: ");
@@ -83,6 +84,9 @@ public class MainApp {
 				break;
 			case "2":
 				printResult(new GeneticAlgo(jobs), jobs);
+				break;
+			case "4":
+				printResult(new DynamicProgramming(jobs), jobs);
 				break;
 			case "0":
 				running = false;
