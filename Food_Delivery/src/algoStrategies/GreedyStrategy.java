@@ -9,7 +9,7 @@ public class GreedyStrategy extends AbstractScheduler {
 	public GreedyStrategy(List<Jobs> jobs) {
 		super(jobs);
 	}
-	
+		
 	@Override
 	public String getAlgorithm() {
 		return "Greedy Algorithm (Profit-based)";

@@ -71,6 +71,7 @@ public class MainApp {
 			System.out.println("===========================");
 			System.out.println(" 1. Greedy Algorithm (Profit-Based)");
 			System.out.println(" 2. Genetic Algoritm");
+			System.out.println(" 3. BackTracking Algorithm");
 			System.out.println(" 5. Run ALL ALGO");
 			System.out.println(" 0. Exit Program");
 			System.out.println(" Choose An Option: ");
