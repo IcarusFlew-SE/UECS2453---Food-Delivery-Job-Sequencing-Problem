@@ -1,6 +1,6 @@
 package algoStrategies;
 
-import service.AbstractScheduler; 
+import jobModel.Jobs;
 import java.util.*;
 
 public class Backtracking extends AbstractScheduler {

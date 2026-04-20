@@ -71,11 +71,8 @@ public class MainApp {
 			System.out.println("===========================");
 			System.out.println(" 1. Greedy Algorithm (Profit-Based)");
 			System.out.println(" 2. Genetic Algoritm");
-<<<<<<< HEAD
 			System.out.println(" 3. BackTracking Algorithm");
-=======
 			System.out.println(" 4. Dynamic Programming");
->>>>>>> branch 'main' of https://github.com/IcarusFlew-SE/UECS2453---Food-Delivery-Job-Sequencing-Problem.git
 			System.out.println(" 5. Run ALL ALGO");
 			System.out.println(" 0. Exit Program");
 			System.out.println(" Choose An Option: ");
@@ -88,6 +85,9 @@ public class MainApp {
 				break;
 			case "2":
 				printResult(new GeneticAlgo(jobs), jobs);
+				break;
+			case "3":
+				printResult(new Backtracking(jobs), jobs);
 				break;
 			case "4":
 				printResult(new DynamicProgramming(jobs), jobs);
