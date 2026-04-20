@@ -1,9 +1,9 @@
 package service;
 
 import jobModel.Jobs;
-import java.util.*;
+import jobModel.Result;
 
-import algoStrategies.Result;
+import java.util.*;
 
 public abstract class AbstractScheduler implements JobScheduler {
     protected List<Jobs> jobs;

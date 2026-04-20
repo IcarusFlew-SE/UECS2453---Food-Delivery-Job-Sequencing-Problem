@@ -1,19 +1,21 @@
 package algoStrategies;
 
 import jobModel.Jobs;
+import jobModel.Result;
+
 import java.util.*;
 import service.AbstractScheduler;
 
 public class GeneticAlgo extends AbstractScheduler {
 	
 	//Assumed Constants
-	private static final int POPULATION_SIZE = 100;
-	private static final int GENERATIONS = 200;
-	private static final int TOURNAMENT_SIZE = 10;
-	private static final double MUTATION_RATE = 0.5;
+	private static final int POPULATION_SIZE = 80;
+	private static final int GENERATIONS = 150;
+	private static final int TOURNAMENT_SIZE = 5;
+	private static final double MUTATION_RATE = 0.2;
 	private static final int ELITE_COUNT = 2; // top N carry over
 	
-	private final Random random = new Random();
+	private final Random random = new Random(42L);
 	
 	public GeneticAlgo(List<Jobs> jobs) {
 		super(jobs);
@@ -24,6 +26,7 @@ public class GeneticAlgo extends AbstractScheduler {
 		return "Genetic Algorithm";
 	}
 	
+	// Evolves candidate permutations and decodes the best chromosome into a suitable schedule
 	@Override
 	public Result<Jobs> schedule(List<Jobs> jobs) {
 		if (jobs.isEmpty()) return new Result<>(new ArrayList<>(), new ArrayList<>(), 0);
@@ -166,7 +169,7 @@ public class GeneticAlgo extends AbstractScheduler {
 		return best;
 	}
 	
-	// Initialize population
+	// Initialize shuffled chromosome population from input jobs
 	private List<Individual> initPopulation() {
 		List<Individual> population = new ArrayList<>();
 		for (int i = 0; i < POPULATION_SIZE; i++) {
@@ -175,7 +178,7 @@ public class GeneticAlgo extends AbstractScheduler {
 		return population;
 	}
 
-	//Internal Individual Class
+	//Internal Individual Class (chromosome holder)
 	private static class Individual {
 		private final List<Jobs> chromosome;
 		private int fitness;

@@ -1,6 +1,7 @@
 package algoStrategies;
 
 import jobModel.Jobs;
+import jobModel.Result;
 import service.AbstractScheduler;
 import java.util.*;
 
