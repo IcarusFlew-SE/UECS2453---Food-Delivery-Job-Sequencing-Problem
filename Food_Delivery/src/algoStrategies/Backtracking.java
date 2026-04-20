@@ -1,6 +1,7 @@
 package algoStrategies;
 
 import jobModel.Jobs;
+import service.AbstractScheduler;
 import java.util.*;
 
 public class Backtracking extends AbstractScheduler {
@@ -21,23 +22,23 @@ public class Backtracking extends AbstractScheduler {
     }
 
     @Override
-    public Result<Jobs> schedule(List<Jobs> jobsToSchedule) {
+    public Result<Jobs> schedule(List<Jobs> jobs) {
        
         this.maxProfitFound = 0.0;
         this.optimalSchedule = new ArrayList<>();
         this.nodesVisited = 0;
 
         //Put the high pay jobs at top of list
-        sortByProfit(jobsToSchedule);
+        sortByProfit(jobs);
         
-        int highestDeadline = getMaxDeadline(jobsToSchedule);
+        int highestDeadline = getMaxDeadline(jobs);
         
         Jobs[] timeline = new Jobs[highestDeadline + 1];
 
-        generateExecutionPlan(jobsToSchedule, 0, timeline, 0.0);
+        generateExecutionPlan(jobs, 0, timeline, 0.0);
 
         //which job rejected
-        List<Jobs> rejected = getUnselectedJobs(jobsToSchedule, optimalSchedule);
+        List<Jobs> rejected = getUnselectedJobs(jobs, optimalSchedule);
         
         System.out.println("Search Completed. The Combinations checked: " + nodesVisited);
         

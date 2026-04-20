@@ -10,12 +10,16 @@ import util.FileHandler;
 public class MainApp {
 
 	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-		List<Jobs> jobs = null;
+	try (Scanner input = new Scanner(System.in)) {
+		List<Jobs> jobs = loadJobs(input);
+		printJobs(jobs);
+		runMenu(input, jobs);
+		}
+	}
 		
-		// 1. Data Input 
-		boolean dataLoaded = false;
-		while (!dataLoaded) {
+	// 1. Data Input
+	private static List<Jobs> loadJobs(Scanner input) {
+		while (true) {
 			System.out.println("Select data input method: ");
 			System.out.println(" 1. Read from file.");
 			System.out.println(" 2. Random Generation. ");
@@ -24,83 +28,119 @@ public class MainApp {
 			String inputChoice = input.nextLine().trim();
 			
 			try {
-				if (inputChoice.equals("1")) {
-					System.out.print("Enter file path (~ Press Enter for default 'jobs_data.txt'): ");
+				switch (inputChoice) {
+				
+				case "1":
+					System.out.print("Enter file path (Press Enter for default file: 'jobs_data.txt'): ");
 					String path = input.nextLine().trim();
-					if (path.isEmpty()) 
+					if (path.isEmpty()) {
 						path = "jobs_data.txt";
-					jobs = FileHandler.loadFromFile(path);
-					System.out.println("File Loaded successfully. ");
-					System.out.println("Loaded " + jobs.size() + " jobs from file. ");
-					dataLoaded = true;
-				}
-				else if (inputChoice.equals("2")) {
-					System.out.print("Number of jobs to be generated: ");
-					int n = Integer.parseInt(input.nextLine().trim());
-					System.out.print("Max deadline value: ");
-					int maxDeadline = Integer.parseInt(input.nextLine().trim());
-					System.out.print("Max profit value: ");
-					double maxProfit = Double.parseDouble(input.nextLine().trim());
-					jobs = FileHandler.generateRandomData(n, maxDeadline, maxProfit, 42L);
-					System.out.println("Generated " + n + " random jobs.");
-					dataLoaded = true;
-				}
-				else {
-					System.out.println("Invalid Choice. Please enter 1 or 2.");
+					}
+					List<Jobs> loadedJobs = FileHandler.loadFromFile(path);
+					System.out.printf("Loaded %d jobs from file.%n", loadedJobs.size());
+					return loadedJobs;
+					
+				case "2":
+					int n = positiveInput(input, "Number of jobs to generate randomly: ");
+					int maxDeadline = positiveInput(input, "Max deadline value: ");
+					double maxProfit = positiveDouble(input, "Max profit value: ");
+					List<Jobs> generatedJobs = FileHandler.generateRandomData(n, maxDeadline, maxProfit, 42L);
+					System.out.printf("Generated %d jobs. %n", generatedJobs.size());
+					return generatedJobs;
+				
+				default:
+					System.out.println("Invalid Choice. Please enter 1 or 2 for direct choice: ");
 				}
 			} catch (IOException err) {
 				System.out.println("Error reading file: " + err.getMessage());
-			} catch (NumberFormatException err) {
-				System.out.println("Invalid number entered. Try Again. " + err.getMessage());
+			} catch (IllegalArgumentException err) {
+				System.out.println("Invalid input: " + err.getMessage());
 			}
-		}
-		
-		// 2. Display all jobs
-		System.out.println("\n===ALL JOBS===");
-		System.out.printf("%-8s %-12s %-10s%n", "Job ID", "Deadline", "Profit");
-		System.out.println("-".repeat(32));
-		for (Jobs job : jobs) {
-			System.out.printf("%-8s %-12s %-10s%n", job.getId(), job.getDeadline(), job.getProfit());
-		}
-		
-		// 3. Algorithm Selection
-		boolean running = true;
-		while (running) {
-			System.out.println("\n=========================");
-			System.out.println(" SELECT ALGORITHM: ");
-			System.out.println("===========================");
-			System.out.println(" 1. Greedy Algorithm (Profit-Based)");
-			System.out.println(" 2. Genetic Algoritm");
-			System.out.println(" 3. BackTracking Algorithm");
-			System.out.println(" 4. Dynamic Programming");
-			System.out.println(" 5. Run ALL ALGO");
-			System.out.println(" 0. Exit Program");
-			System.out.println(" Choose An Option: ");
-			
-			String choice = input.nextLine().trim();
-			
-			switch(choice) {
-			case "1":
-				printResult(new GreedyStrategy(jobs), jobs);
-				break;
-			case "2":
-				printResult(new GeneticAlgo(jobs), jobs);
-				break;
-			case "3":
-				printResult(new Backtracking(jobs), jobs);
-				break;
-			case "4":
-				printResult(new DynamicProgramming(jobs), jobs);
-				break;
-			case "0":
-				running = false;
-				break;
-			default:
-				System.out.println(" Invalid Option. Please Try Again.");
-			}
-		}
-		input.close();
+		}		
 	}
+	
+		// Shows all data from appended jobs list
+		private static void printJobs(List<Jobs> jobs) {
+			System.out.println("\n====== ALL JOBS ======");
+			System.out.printf("%-10s %-10s %-10s%n", "Job ID", "Deadline", "Profit");
+			System.out.println("-".repeat(35));
+			for (Jobs job : jobs) {
+				System.out.printf("%-10s %-10d RM %-10.2f%n", job.getId(), job.getDeadline(), job.getProfit());
+			}
+		}
+		
+		// Runs Algorithm Selection
+		private static void runMenu(Scanner input, List<Jobs> jobs) {
+			boolean running = true;
+			while (running) {
+				System.out.println("\n========================");
+				System.out.println("SELECT ALGORITHM");
+				System.out.println(" 1. Greedy Method (Profit-Based)");
+				System.out.println(" 2. Genetic Algorithm");
+				System.out.println(" 3. Backtracking Algorithm");
+				System.out.println(" 4. Dynamic Programming ");
+				System.out.println(" 5. Run All Algorithms");
+				System.out.println(" 0. Exit Program");
+				System.out.println(" Choose An Option: ");
+				
+				String choice = input.nextLine().trim();
+				switch(choice) {
+				case "1":
+					printResult(new GreedyStrategy(jobs), jobs);
+					break;
+				case "2":
+					printResult(new GeneticAlgo(jobs), jobs);
+					break;
+				case "3":
+					printResult(new Backtracking(jobs), jobs);
+					break;
+				case "4":
+					printResult(new DynamicProgramming(jobs), jobs);
+					break;
+				case "5":
+					printResult(new GreedyStrategy(jobs), jobs);
+					printResult(new GeneticAlgo(jobs), jobs);
+					printResult(new Backtracking(jobs), jobs);
+					printResult(new DynamicProgramming(jobs), jobs);
+					break;
+				case "0":
+					running = false;
+					break;
+				default:
+					System.out.println("Invalid Option. Please try again and make a valid choice.");
+				}
+			}
+		}
+		
+		// Integer Input Handler
+		private static int positiveInput(Scanner input, String prompt) {
+			while (true) {
+				System.out.print(prompt);
+				try {
+					int value = Integer.parseInt(input.nextLine().trim());
+					if (value > 0) {
+						return value;
+					}
+				} catch (NumberFormatException err) {
+					System.out.println(err.getMessage() + "Please enter a positive integer");
+				}
+			}
+		}
+		
+		// Profit Value Handler
+		private static double positiveDouble(Scanner input, String prompt) {
+			while (true) {
+				System.out.print(prompt);
+				try {
+					double value = Double.parseDouble(input.nextLine().trim());
+					if (value > 0.0) {
+						return value;
+					}
+				} catch (NumberFormatException err) {
+					System.out.println(err.getMessage() + "Please enter a positive number");
+				}
+			}
+		}
 		
 		// Result Printer
 		private static void printResult(JobScheduler scheduler, List<Jobs> jobs) {
@@ -134,6 +174,5 @@ public class MainApp {
 			} else {
 				System.out.println("\n All Jobs Were Selected");
 			}
-			
+		}
 	}
-}
