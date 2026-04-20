@@ -39,7 +39,7 @@ public class Backtracking extends AbstractScheduler {
         //which job rejected
         List<Jobs> rejected = getUnselectedJobs(jobsToSchedule, optimalSchedule);
         
-        System.out.println("Search Completed. Combinations checked: " + nodesVisited);
+        System.out.println("Search Completed. The Combinations checked: " + nodesVisited);
         
         Result<Jobs> finalResult = new Result<>(optimalSchedule, rejected, maxProfitFound);
         return finalResult;
