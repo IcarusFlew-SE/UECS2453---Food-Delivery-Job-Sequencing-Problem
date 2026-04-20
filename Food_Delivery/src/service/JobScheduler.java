@@ -1,8 +1,9 @@
 package service;
 
 import jobModel.Jobs;
+import jobModel.Result;
+
 import java.util.*;
-import algoStrategies.Result;
 
 public interface JobScheduler {
 	//Runs algorithm and return selected jobs in execution order

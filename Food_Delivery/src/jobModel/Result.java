@@ -1,4 +1,4 @@
-package algoStrategies;
+package jobModel;
 import java.util.*;
 
 public class Result<T> {

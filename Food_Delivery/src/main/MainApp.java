@@ -2,13 +2,17 @@ package main;
 
 import java.util.*;
 import java.io.*;
+import java.time.format.DateTimeFormatter;
+
 import algoStrategies.*;
 import jobModel.Jobs;
+import jobModel.Result;
 import service.*;
 import util.FileHandler;
+import util.RandomGenerator;
 
 public class MainApp {
-
+	public static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static void main(String[] args) {
 	try (Scanner input = new Scanner(System.in)) {
 		List<Jobs> jobs = loadJobs(input);

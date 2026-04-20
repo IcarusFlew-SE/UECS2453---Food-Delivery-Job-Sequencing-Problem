@@ -22,11 +22,8 @@ public class FileHandler {
                     String id = parts[0].trim();
                     int deadline = Integer.parseInt(parts[1].trim());
                     double profit = Double.parseDouble(parts[2].trim());
-                    String orderName = parts[3].trim();
-                    String restaurant = parts[4].trim();
-                    double distance = Double.parseDouble(parts[5].trim());
-                    int quantity = Integer.parseInt(parts[6].trim());
-                    jobs.add(new Jobs(id, deadline, profit, orderName, restaurant, distance, quantity));
+        
+                    jobs.add(new Jobs(id, deadline, profit));
             }
         }
         return jobs;
