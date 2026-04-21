@@ -30,7 +30,7 @@ public class GreedyStrategy extends AbstractScheduler {
         // Display sorted jobs
         System.out.println("\nJobs sorted by profit (highest to lowest):");
         System.out.println(" Job ID   | Profit (RM) | Deadline");
-        System.out.println("--------+-------------+---------");
+        System.out.println("----------+-------------+---------");
         for (Jobs job : sortedJobs) {
             System.out.printf(" %-7s  | RM %-9.2f | %d hours%n\n", 
                 job.getId(), job.getProfit(), job.getDeadline());

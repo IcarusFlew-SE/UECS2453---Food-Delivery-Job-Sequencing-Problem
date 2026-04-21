@@ -18,7 +18,7 @@ public abstract class AbstractScheduler implements JobScheduler {
     
     // Sort by profit (descending)
     protected void sortByProfit(List<Jobs> jobs) {
-        jobs.sort((a, b) -> Double.compare(b.getProfit(), a.getProfit()))
+        jobs.sort((a, b) -> Double.compare(b.getProfit(), a.getProfit()));
     }
     
     // Get maximum deadline 
