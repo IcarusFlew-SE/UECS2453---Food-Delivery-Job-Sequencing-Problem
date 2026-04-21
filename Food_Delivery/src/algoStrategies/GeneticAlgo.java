@@ -61,7 +61,7 @@ public class GeneticAlgo extends AbstractScheduler {
 			
 			population = nextGen;
 		}
-		// Final Ranking pass
+		// Final evaluation and ranking pass
 		for (Individual indiv : population) {
 			indiv.setFitness(evaluateFitness(indiv.getChromosome()));
 		}
@@ -75,7 +75,8 @@ public class GeneticAlgo extends AbstractScheduler {
 		return new Result<>(selected, rejected, profit);
 	}
 	
-	// Fitness: simulate slot-filling on the chromosome order
+	// Fitness: simulate greedy slot-filling on the chromosome order
+	// The ordering determines which job gets priority for deadline slots
 	private int evaluateFitness(List<Jobs> order) {
 		int maxDeadline = order.stream().mapToInt(Jobs::getDeadline).max().orElse(0);
 		boolean[] slots = new boolean[maxDeadline + 1];
@@ -94,7 +95,7 @@ public class GeneticAlgo extends AbstractScheduler {
 		return profit;
 	}
 	
-	// Returns only the jobs that are feasible (deadline ~)
+	// Returns only feasible subset of jobs in this chromosome ordering
 	private List<Jobs> extractScheduledJobs(List<Jobs> order) {
 		int maxDeadline = order.stream().mapToInt(Jobs::getDeadline).max().orElse(0);
 		boolean[] slots = new boolean[maxDeadline + 1];
@@ -112,7 +113,8 @@ public class GeneticAlgo extends AbstractScheduler {
 		return result;
 	}
 	
-	// Order Crossover - preserves relative ordering of 'genes'
+	// Order Crossover (OX1) - copies a random slice from parent1 into the child
+	// then fills remaining positions with parent2's order, preserving relative sequences
 	private Individual orderCrossover(Individual p1, Individual p2) {
 		List<Jobs> parent1 = p1.getChromosome();
 		List<Jobs> parent2 = p2.getChromosome();
@@ -125,7 +127,7 @@ public class GeneticAlgo extends AbstractScheduler {
 			start = end;
 			end = temp;
 		}
-		// Copy the slice into childGene
+		// Copy the crossover slice from parent1 into childGene
 		List<Jobs> childGenes = new ArrayList<>(Collections.nCopies(size, null));
 		Set<Jobs> inherited = new HashSet<>(); //Avoid duplicates ~ Fast
 		
@@ -134,7 +136,7 @@ public class GeneticAlgo extends AbstractScheduler {
 			inherited.add(parent1.get(1));
 		}
 		
-		// Fill remain positions with parent2's order
+		// Fill remain positions with parent2's relative ordering
 		int fillPosition = (end + 1) % size;
 		for (int i = 0; i < size; i++) {
 			Jobs gene = parent2.get((end + 1 + i)  % size);
@@ -147,7 +149,7 @@ public class GeneticAlgo extends AbstractScheduler {
 		return new Individual(childGenes, true);
 	}
 	
-	// Swap mutation of genes
+	// Swap mutation of genes: randomly swaps two genes with the probability mutation rate
 	private void mutate(Individual individual) {
 		if (random.nextDouble() < MUTATION_RATE) {
 			List<Jobs> genes = individual.getChromosome();
@@ -157,7 +159,7 @@ public class GeneticAlgo extends AbstractScheduler {
 		}
 	}
 	
-	// Tournament Selection
+	// Tournament Selection: picks the fittest from a random sample of TOURNAMENT_SIZE
 	private Individual tournamentSelect(List<Individual> population) {
 		Individual best = null; // best init as null
 		for (int i = 0; i < TOURNAMENT_SIZE; i++) {

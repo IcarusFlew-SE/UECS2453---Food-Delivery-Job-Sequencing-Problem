@@ -22,26 +22,30 @@ public class DynamicProgramming extends AbstractScheduler {
 		int n = jobs.size();
 		int maxDeadline = getMaxDeadline(jobs);
 		
+		// Work on a deadline-sorted copy, algorithms are independent of input order
 		List<Jobs> sortedJobs = new ArrayList<>(jobs);
 		sortedJobs.sort(Comparator.comparingInt(Jobs::getDeadline));
 		
-		//Create dynamic programming  table
+		//dp[i][t] = best profit using first i jobs with scheduling horizon t
 		double[][] dp = new double[n + 1][maxDeadline + 1];
 		
-		//Build table
+		//Build table (bottom-up)
 		for(int i = 1; i <= n; i++) {
 			Jobs job = sortedJobs.get(i - 1);
 			for(int t = 1; t <= maxDeadline; t++) { 
-				
+				// Option A: skip this job - carry forward the value without it
+				dp[i][t] = dp[i - 1][t];
+				// Option B: include this job - only valid if it fits before its deadline
 				if(t <= job.getDeadline()) {
-					dp[i][t] = Math.max(dp[i - 1][t], dp[i - 1][t - 1] + job.getProfit());
-				}else {
-					dp[i][t] = Math.max(dp[i - 1][t], dp[i][t - 1]);
+					double withJob = dp[i - 1][t - 1] + job.getProfit();
+					if (withJob > dp[i][t]) {
+						dp[i][t] = withJob;
+					}
 				}
 			} 
 		}	
 		
-		//Find selected jobs
+		//Find selected jobs (Traceback: reconstruct selected jobs)
 		List<Jobs> selected = new ArrayList<>();
 		int t = maxDeadline;
 		
@@ -50,6 +54,7 @@ public class DynamicProgramming extends AbstractScheduler {
 				Jobs job = sortedJobs.get(i - 1);
 				selected.add(job);
 				t = Math.min(t, job.getDeadline()) - 1;
+				if (t <= 0) break;
 			}
 		}
 		

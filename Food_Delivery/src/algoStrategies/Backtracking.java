@@ -29,13 +29,11 @@ public class Backtracking extends AbstractScheduler {
         this.optimalSchedule = new ArrayList<>();
         this.nodesVisited = 0;
 
-        //Put the high pay jobs at top of list
+        // Sorting by profit (descending) ensures high-value jobs first
         sortByProfit(jobs);
         
         int highestDeadline = getMaxDeadline(jobs);
-        
         Jobs[] timeline = new Jobs[highestDeadline + 1];
-
         generateExecutionPlan(jobs, 0, timeline, 0.0);
 
         //which job rejected
@@ -43,39 +41,34 @@ public class Backtracking extends AbstractScheduler {
         
         System.out.println("Search Completed. The Combinations checked: " + nodesVisited);
         
-        Result<Jobs> finalResult = new Result<>(optimalSchedule, rejected, maxProfitFound);
-        return finalResult;
+        return new Result<>(optimalSchedule, rejected, maxProfitFound);
     }
 
-    //recursive method
+    //recursive branch-and-bound search
     private void generateExecutionPlan(List<Jobs> allJobs, int currentJobIndex, Jobs[] timeline, double currentProfitSum) {
     
-        nodesVisited = nodesVisited + 1;
+        nodesVisited++;
 
-        //base case
+        //base case: all jobs decided - check if this is a new record
         if (currentJobIndex == allJobs.size()) {
             checkIfNewRecord(timeline, currentProfitSum);
             return;
         }
 
-        //get pecific job we are looking at now
+        //get specific job we are looking at now
         Jobs jobToLookAt = allJobs.get(currentJobIndex);
 
-        //attempt to add job
-        //look through every hour from the deadline back to 1
+        // Run backwards from deadline to find the latest available slot
         for (int hour = jobToLookAt.getDeadline(); hour >= 1; hour--) {
-            
             //if slot at this hour is empty
             if (timeline[hour] == null) {
-                
-            
                 timeline[hour] = jobToLookAt;
                 double newProfit = currentProfitSum + jobToLookAt.getProfit();
                 
                 // move to the NEXT job
                 generateExecutionPlan(allJobs, currentJobIndex + 1, timeline, newProfit);
                 
-                //take the job back out for the next branch to try.
+                //Backtrack: take the job back out for the next branch to try.
                 timeline[hour] = null;
                 
                 break; 

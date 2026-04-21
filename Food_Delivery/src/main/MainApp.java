@@ -9,7 +9,6 @@ import jobModel.Jobs;
 import jobModel.Result;
 import service.*;
 import util.FileHandler;
-import util.RandomGenerator;
 
 public class MainApp {
 	public static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -46,7 +45,7 @@ public class MainApp {
 					
 				case "2":
 					int n = positiveInput(input, "Number of jobs to generate randomly: ");
-					int maxDeadline = positiveInput(input, "Max deadline value: ");
+					int maxDeadline = positiveInput(input, "Max deadline value (24): ");
 					double maxProfit = positiveDouble(input, "Max profit value: ");
 					List<Jobs> generatedJobs = FileHandler.generateRandomData(n, maxDeadline, maxProfit, 42L);
 					System.out.printf("Generated %d jobs. %n", generatedJobs.size());
@@ -65,7 +64,7 @@ public class MainApp {
 	
 		// Shows all data from appended jobs list
 		private static void printJobs(List<Jobs> jobs) {
-			System.out.println("\n====== ALL JOBS ======");
+			System.out.println("\n========= ALL JOBS ==========");
 			System.out.printf("%-10s %-10s %-10s%n", "Job ID", "Deadline", "Profit");
 			System.out.println("-".repeat(35));
 			for (Jobs job : jobs) {
@@ -148,7 +147,7 @@ public class MainApp {
 		
 		// Result Printer
 		private static void printResult(JobScheduler scheduler, List<Jobs> jobs) {
-			System.out.println("\n===============");
+			System.out.println("\n=================");
 			System.out.println(" " + scheduler.getAlgorithm());
 			System.out.println("=================");
 			
@@ -158,7 +157,7 @@ public class MainApp {
 			List<Jobs> rejected = result.getRejectedJobs();
 			
 			System.out.println("\n Selected Jobs: ");
-			System.out.printf(" %-10s %-12s %-12s%n", "Job ID", "Delivery_Time", "Profit (RM)");
+			System.out.printf(" %-10s %-12s %-12s%n", "Job ID", "Delivery_Time", " Profit (RM)");
 			System.out.println(" " + "-".repeat(35));
 			for (Jobs job : selected) {
 				System.out.printf(" %-10s %-12d RM %.2f%n", job.getId(), job.getDeadline(), job.getProfit());
@@ -170,7 +169,7 @@ public class MainApp {
 			
 			if (!rejected.isEmpty()) {
 				System.out.println("\n Unselected Jobs: ");
-				System.out.printf(" %-10s %-12s %-12s%n", "Job ID", "Delivery_Time", "Profit (RM)");
+				System.out.printf(" %-10s %-12s %-12s%n", "Job ID", "Delivery_Time", " Profit (RM)");
 				System.out.println(" " + "-".repeat(35));
 				for (Jobs job : rejected) {
 					System.out.printf(" %-10s %-12d RM %.2f%n", job.getId(), job.getDeadline(), job.getProfit());
