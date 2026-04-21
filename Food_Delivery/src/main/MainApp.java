@@ -78,7 +78,7 @@ public class MainApp {
 			while (running) {
 				System.out.println("\n========================");
 				System.out.println("SELECT ALGORITHM");
-				System.out.println(" 1. Greedy Method (Profit-Based)");
+				System.out.println(" 1. Greedy Algorithm (Profit-Based)");
 				System.out.println(" 2. Genetic Algorithm");
 				System.out.println(" 3. Backtracking Algorithm");
 				System.out.println(" 4. Dynamic Programming ");

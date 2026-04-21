@@ -32,7 +32,7 @@ public class GreedyStrategy extends AbstractScheduler {
         System.out.println(" Job ID   | Profit (RM) | Deadline");
         System.out.println("--------+-------------+---------");
         for (Jobs job : sortedJobs) {
-            System.out.printf(" %-7s  | RM %-9.2f | %d days%n\n", 
+            System.out.printf(" %-7s  | RM %-9.2f | %d hours%n\n", 
                 job.getId(), job.getProfit(), job.getDeadline());
         }
         System.out.println();
@@ -43,7 +43,6 @@ public class GreedyStrategy extends AbstractScheduler {
         
         for (Jobs job : sortedJobs) {
             int slot = findFreeSlot(slots, job.getDeadline());
-            
             if (slot > 0) {
                 slots[slot] = job;
                 selected.add(job);
