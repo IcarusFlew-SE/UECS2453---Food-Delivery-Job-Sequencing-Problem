@@ -25,11 +25,11 @@ Given a set of n delivery orders, each with a deadline,d (hours) and profit, p (
 
 
 ## Data Models 
-| Parameter | Description |
-|-----------|-------------|
-| Job ID    | Unique Identifier for each job |
-| Deadlines | Time stated for delivery (Hours) |
-| Profit    | Total profit earned from each specific job (delivery) |
+| Parameter |Data Type| Description |
+|-----------|---------|-------------|
+| Job ID    | String  | Unique Identifier for each job |
+| Deadlines | Integer | Time stated for delivery (Hours) |
+| Profit    | Double  | Total profit earned from each specific job (delivery) |
 
 
 ## Features Included
@@ -44,7 +44,7 @@ Given a set of n delivery orders, each with a deadline,d (hours) and profit, p (
 
 
 ## Algorithm Implemented
-- Greedy Method (Profit-based)
+- Greedy Algorithm (Profit-based)
 - Dynamic Programming
 - Genetic Algorithm
 - Backtracking Algorithm
@@ -65,14 +65,13 @@ Given a set of n delivery orders, each with a deadline,d (hours) and profit, p (
 ```bash
 Food_Delivery/
 ├── src/
-│   ├── algoStrategies/
-│   │   ├── JobSeqStrategy.java      
-│   │   ├── Result.java               
+│   ├── algoStrategies/                 
 │   │   ├── GreedyStrategy.java      
 │   │   ├── GeneticAlgo.java          
 │   │   ├── Backtracking.java        
 │   │   └── DynamicProgramming.java   
 │   ├── jobModel/
+│   │   ├── Result.java
 │   │   └── Jobs.java                
 │   ├── service/
 │   │   ├── JobScheduler.java        
@@ -89,6 +88,7 @@ Food_Delivery/
 |Tool|Description|
 |---|---|
 |Eclipse|IDE For Java Implementation|
+|Git| Version Control |
 |Java (JDK22)|Programming language used for the project|
 
 ## Contributors
